@@ -28,28 +28,28 @@ public class ChainProcessorTest {
     public void should_execute_chain_with_success() throws IOException, InterruptedException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        Assertions.assertTrue(checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.TRUE));
+        checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.TRUE);
     }
 
     @Test
     public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
         moveFileToTest(TXT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
+        checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE);
     }
 
     @Test
     public void should_execute_chain_with_failure_inconsistent_data() throws IOException, InterruptedException {
         moveFileToTest(INCONSISTENT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        Assertions.assertTrue(checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE));
+        checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE);
     }
 
     @Test
     public void should_execute_chain_with_failure_invalid_format() throws IOException, InterruptedException {
         moveFileToTest(WRONG_FORMAT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        Assertions.assertTrue(checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE));
+        checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE);
     }
 
     private void moveFileToTest(String fileName) throws IOException, InterruptedException {

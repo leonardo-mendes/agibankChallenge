@@ -8,7 +8,7 @@ before_install:
 install: skip
 
 script:
-  - ./gradlew clean build --stacktrace
+  - ./gradlew build --info
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
