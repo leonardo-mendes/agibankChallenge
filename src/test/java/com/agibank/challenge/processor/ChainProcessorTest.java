@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class ChainProcessorTest {
 
@@ -28,28 +27,28 @@ public class ChainProcessorTest {
     public void should_execute_chain_with_success() throws IOException, InterruptedException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.TRUE);
+        Assertions.assertTrue(checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.TRUE));
     }
 
     @Test
     public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
         moveFileToTest(TXT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE);
+        Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
     public void should_execute_chain_with_failure_inconsistent_data() throws IOException, InterruptedException {
         moveFileToTest(INCONSISTENT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE);
+        Assertions.assertTrue(checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
     public void should_execute_chain_with_failure_invalid_format() throws IOException, InterruptedException {
         moveFileToTest(WRONG_FORMAT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE);
+        Assertions.assertTrue(checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     private void moveFileToTest(String fileName) throws IOException, InterruptedException {
