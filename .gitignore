@@ -19,7 +19,7 @@ build/
 *.iws
 *.iml
 *.ipr
-data/out/
+src/main/resources/data/out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 

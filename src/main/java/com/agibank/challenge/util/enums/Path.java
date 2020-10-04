@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Path {
-    INPUT("data/in/"),
-    BACKUP("data/backup/"),
-    FAILURE_BACKUP("data/backup/failure/"),
-    OUTPUT("data/out/");
+    INPUT("src/main/resources/data/in/"),
+    BACKUP("src/main/resources/data/backup/"),
+    FAILURE_BACKUP("src/main/resources/data/failure/"),
+    OUTPUT("src/main/resources/data/out/");
 
     public String path;
 }
