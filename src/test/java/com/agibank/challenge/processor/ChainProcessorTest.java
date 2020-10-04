@@ -23,11 +23,11 @@ public class ChainProcessorTest {
 
     ChainProcessor chainProcessor = new ChainProcessor();
 
-    @Test
+/*    @Test
     public void should_execute_chain_with_success() throws IOException, InterruptedException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-    }
+    }*/
 
     @Test
     public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
