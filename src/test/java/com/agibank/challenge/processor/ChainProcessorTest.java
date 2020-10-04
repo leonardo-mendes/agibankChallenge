@@ -32,7 +32,7 @@ public class ChainProcessorTest {
     }
 
     @Test
-    public void should_execute_chain_with_failure_wrong_extension() throws IOException {
+    public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
         moveFileToTest(TXT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
         Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
