@@ -1,1 +1,1 @@
-finalizar
+[![Build Status](https://travis-ci.org/leonardo-mendes/agibankChallenge.svg?branch=master)](https://travis-ci.org/leonardo-mendes/agibankChallenge)

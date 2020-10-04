@@ -1,0 +1,21 @@
+language: java
+jdk:
+  - oraclejdk11
+
+before_install:
+  - chmod +x gradlew
+
+install: skip
+
+script:
+  - ./gradlew clean build --stacktrace
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+email:
+recipients:
+  - leonardocm92@hotmail.com
+on_success: always
+on_failure: always
