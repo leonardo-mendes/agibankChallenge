@@ -3,12 +3,12 @@ jdk:
   - oraclejdk11
 
 before_install:
-  - chmod rwx gradlew
+  - chmod +x run.sh
 
 install: skip
 
 script:
-  - ./gradlew build
+  - sh run.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
