@@ -25,41 +25,43 @@ public class ChainProcessorTest {
     ChainProcessor chainProcessor = new ChainProcessor();
 
     @Test
-    public void should_execute_chain_with_success() throws IOException {
+    public void should_execute_chain_with_success() throws IOException, InterruptedException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.TRUE);
+        Assertions.assertTrue(checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.TRUE));
     }
 
     @Test
     public void should_execute_chain_with_failure_wrong_extension() throws IOException {
         moveFileToTest(TXT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE);
+        Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
-    public void should_execute_chain_with_failure_inconsistent_data() throws IOException {
+    public void should_execute_chain_with_failure_inconsistent_data() throws IOException, InterruptedException {
         moveFileToTest(INCONSISTENT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE);
+        Assertions.assertTrue(checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
-    public void should_execute_chain_with_failure_invalid_format() throws IOException {
+    public void should_execute_chain_with_failure_invalid_format() throws IOException, InterruptedException {
         moveFileToTest(WRONG_FORMAT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE);
+        Assertions.assertTrue(checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
-    private void moveFileToTest(String fileName) throws IOException {
+    private void moveFileToTest(String fileName) throws IOException, InterruptedException {
         File original = new File(
                 "src/test/resources/".concat(fileName));
         File copied = new File(Path.INPUT.path.concat(fileName));
         FileUtils.copyFile(original, copied);
+        Thread.sleep(500);
     }
 
-    private Boolean checkProcessedFile(String fileName, Boolean expectedResult){
+    private Boolean checkProcessedFile(String fileName, Boolean expectedResult) throws InterruptedException {
+        Thread.sleep(500);
         String outOutPath;
         if(expectedResult){
             outOutPath = Path.OUTPUT.path.concat(fileName).replace(".dat", ".done.dat");
@@ -73,7 +75,8 @@ public class ChainProcessorTest {
         return result;
     }
 
-    private void deleteFile(String fileName){
+    private void deleteFile(String fileName) throws InterruptedException {
+        Thread.sleep(500);
         new File(Path.OUTPUT.path.concat(fileName).replace(".dat", ".done.dat"));
         new File(Path.BACKUP.path.concat(fileName)).delete();
         new File(Path.FAILURE_BACKUP.path.concat(fileName)).delete();
