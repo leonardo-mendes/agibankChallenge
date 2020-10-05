@@ -31,21 +31,18 @@ public class ChainProcessorTest {
         StartProcess.createResources();
     }
 
-    @AfterEach
-    public void cleanResources(){
-        Arrays.stream(Path.values()).forEach(source -> {
-                    Arrays.stream(Objects.requireNonNull(new File(source.path).listFiles()))
-                            .filter(file -> !file.isDirectory())
-                            .forEach(File::delete);
-                }
-        );
-    }
-
     @Test
     public void should_execute_chain_with_success() throws IOException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
         Assertions.assertFalse(checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.FALSE));
+    }
+
+    @Test
+    public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
+        moveFileToTest(TXT_FILE_TO_PROCESS);
+        chainProcessor.runProcess().moveForward(List.of());
+        Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
@@ -78,7 +75,15 @@ public class ChainProcessorTest {
         }
         File file = new File(outOutPath);
         boolean result = file.canRead();
+        file.delete();
+        deleteFile(fileName);
         return result;
+    }
+
+    private void deleteFile(String fileName)  {
+        new File(Path.OUTPUT.path.concat(fileName).replace(".dat", ".done.dat"));
+        new File(Path.BACKUP.path.concat(fileName)).delete();
+        new File(Path.FAILURE_BACKUP.path.concat(fileName)).delete();
     }
 
 }
