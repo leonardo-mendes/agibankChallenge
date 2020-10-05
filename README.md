@@ -11,17 +11,17 @@ Uma aplicação para processamento de arquivos, validando e gerando um novo arqu
 
 2 - Aplica as validações referentes a arquivo e conteudo.
 
-3 - Arquivos processados com sucesso são enviados para:
+3 - Arquivos processados com sucesso serão movidos para:
 ``
   src/main/resources/data/backup/
 ``
 
-4 - Arquivos processados com erro são enviados para:
+4 - Arquivos processados com falha serão movidos para:
 ``
   src/main/resources/data/failure/
 ``
 
-5 - Arquivos com os resultados das origens processadas são enviados para:
+5 - Arquivos com os resultados das origens processadas serão gerados em:
 ``
   src/main/resources/data/out/
 ``
@@ -53,8 +53,28 @@ Exemplo de Arquivo:
 > 003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çPedro <br>
 > 003ç08ç[1-34-10,2-33-1.50,3-40-0.10]çPaulo <br>
 
-## Execução
+## Resultados
+
+Os resultados dos arquivos processados podem ser encontrados no diretório: 
+``
+  src/main/resources/data/out/{nome_do_arquivo}.done.dat
+`` 
+
+Indicadores: 
+
+- Quantidade de vendedor no arquivo de entrada <br>
+- Quantidade de clientes no arquivo de entrada <br>
+- ID da venda mais cara <br>
+- O pior vendedor <br>
+
+**Formato do arquivo:**
+> Salesmen: 2 - Clients: 2 - Best Sale: 10 - Lower Sale: Paulo
+
+
+
+## Executando o Projeto
 
 ``
 ./gradlew bootRun
 ``
+
