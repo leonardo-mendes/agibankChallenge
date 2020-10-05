@@ -75,7 +75,6 @@ public class ChainProcessorTest {
         }
         File file = new File(outOutPath);
         boolean result = file.canRead();
-        file.delete();
         deleteFile(fileName);
         return result;
     }
