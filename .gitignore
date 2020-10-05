@@ -19,7 +19,6 @@ build/
 *.iws
 *.iml
 *.ipr
-src/main/resources/data/out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 

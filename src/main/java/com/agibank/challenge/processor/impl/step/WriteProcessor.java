@@ -2,7 +2,9 @@ package com.agibank.challenge.processor.impl.step;
 
 import com.agibank.challenge.domain.Report;
 import com.agibank.challenge.exception.WriteFileException;
+import com.agibank.challenge.util.enums.Path;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,6 +12,7 @@ import java.util.List;
 
 import static com.agibank.challenge.util.enums.Extension.INPUT_DAT;
 import static com.agibank.challenge.util.enums.Extension.OUTPUT_DAT;
+import static com.agibank.challenge.util.enums.Path.INPUT;
 import static com.agibank.challenge.util.enums.Path.OUTPUT;
 
 public class WriteProcessor extends StepProcessor {
@@ -19,6 +22,7 @@ public class WriteProcessor extends StepProcessor {
         reports.forEach(report -> {
             if (!report.getError()) {
                 try {
+                    new File(OUTPUT.path).mkdir();
                     OutputStream output = new FileOutputStream(sanitizeOutput(report.getFileName()));
                     String result = buildResultLine(report);
                     int control = 1;
@@ -28,7 +32,7 @@ public class WriteProcessor extends StepProcessor {
                     }
                     output.close();
                 } catch (IOException e) {
-                    throw  new WriteFileException(e.getMessage());
+                    throw new WriteFileException(e.getMessage());
                 }
             }
         });
