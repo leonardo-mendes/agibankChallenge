@@ -14,8 +14,6 @@ public class MoveProcessor extends StepProcessor {
     @Override
     public List<Report> process(List<Report> reports) {
         reports.forEach(report -> {
-            new File(FAILURE_BACKUP.path).mkdir();
-            new File(BACKUP.path).mkdir();
             new File(INPUT.path.concat(report.getFileName())).renameTo(new File(resolveOutput(report)));
             log.info("Processed {} file.", report.getFileName());
         });

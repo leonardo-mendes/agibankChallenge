@@ -2,18 +2,22 @@ plugins {
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.agibank'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
 }
 
+ext {
+	commonsVersion = "2.6"
+}
+
 dependencies {
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	compile "commons-io:commons-io:${commonsVersion}"
 
 	compileOnly "org.projectlombok:lombok"
 	annotationProcessor "org.projectlombok:lombok"
@@ -26,4 +30,15 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled = true
+	}
+}
+
+plugins.withType(JacocoPlugin) {
+	tasks["test"].finalizedBy "jacocoTestReport"
 }

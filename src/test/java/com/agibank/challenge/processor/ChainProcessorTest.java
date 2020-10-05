@@ -1,16 +1,20 @@
 package com.agibank.challenge.processor;
 
+import com.agibank.challenge.configuration.StartProcess;
 import com.agibank.challenge.processor.impl.ChainProcessor;
 import com.agibank.challenge.util.enums.Path;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import static com.agibank.challenge.util.enums.Path.INPUT;
 
 @ExtendWith(MockitoExtension.class)
 public class ChainProcessorTest {
@@ -21,6 +25,21 @@ public class ChainProcessorTest {
     private final String WRONG_FORMAT_FILE_TO_PROCESS = "wrong_format.dat";
 
     ChainProcessor chainProcessor = new ChainProcessor();
+
+    @BeforeEach
+    public void createResources(){
+        StartProcess.createResources();
+    }
+
+    @AfterEach
+    public void cleanResources(){
+        Arrays.stream(Path.values()).forEach(source -> {
+                    Arrays.stream(Objects.requireNonNull(new File(source.path).listFiles()))
+                            .filter(file -> !file.isDirectory())
+                            .forEach(File::delete);
+                }
+        );
+    }
 
     @Test
     public void should_execute_chain_with_success() throws IOException {
@@ -66,8 +85,8 @@ public class ChainProcessorTest {
         }
         File file = new File(outOutPath);
         boolean result = file.canRead();
-        file.delete();
-        deleteFile(fileName);
+/*        file.delete();
+        deleteFile(fileName);*/
         return result;
     }
 
