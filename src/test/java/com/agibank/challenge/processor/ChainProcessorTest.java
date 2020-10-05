@@ -26,11 +26,6 @@ public class ChainProcessorTest {
 
     ChainProcessor chainProcessor = new ChainProcessor();
 
-    @BeforeEach
-    public void createResources(){
-        StartProcess.createResources();
-    }
-
     @Test
     public void should_execute_chain_with_success() throws IOException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
@@ -39,14 +34,14 @@ public class ChainProcessorTest {
     }
 
     @Test
-    public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
+    public void should_execute_chain_with_failure_wrong_extension() throws IOException {
         moveFileToTest(TXT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
         Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
-    public void should_execute_chain_with_failure_inconsistent_data() throws IOException, InterruptedException {
+    public void should_execute_chain_with_failure_inconsistent_data() throws IOException {
         moveFileToTest(INCONSISTENT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
         Assertions.assertTrue(checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE));
@@ -60,6 +55,7 @@ public class ChainProcessorTest {
     }
 
     private void moveFileToTest(String fileName) throws IOException{
+        StartProcess.createResources();
         File original = new File(
                 "src/test/resources/".concat(fileName));
         File copied = new File(Path.INPUT.path.concat(fileName));
