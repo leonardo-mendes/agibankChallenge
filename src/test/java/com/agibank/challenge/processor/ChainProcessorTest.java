@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,42 +23,41 @@ public class ChainProcessorTest {
     ChainProcessor chainProcessor = new ChainProcessor();
 
     @Test
-    public void should_execute_chain_with_success() throws IOException, InterruptedException {
+    public void should_execute_chain_with_success() throws IOException {
         moveFileToTest(SUCCESS_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
+        Assertions.assertFalse(checkProcessedFile(SUCCESS_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
     public void should_execute_chain_with_failure_wrong_extension() throws IOException, InterruptedException {
         moveFileToTest(TXT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        //Assertions.assertFalse(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
+        Assertions.assertTrue(checkProcessedFile(TXT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
     public void should_execute_chain_with_failure_inconsistent_data() throws IOException, InterruptedException {
         moveFileToTest(INCONSISTENT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        //Assertions.assertFalse(checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE));
+        Assertions.assertTrue(checkProcessedFile(INCONSISTENT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
     @Test
-    public void should_execute_chain_with_failure_invalid_format() throws IOException, InterruptedException {
+    public void should_execute_chain_with_failure_invalid_format() throws IOException{
         moveFileToTest(WRONG_FORMAT_FILE_TO_PROCESS);
         chainProcessor.runProcess().moveForward(List.of());
-        //Assertions.assertFalse(checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE));
+        Assertions.assertTrue(checkProcessedFile(WRONG_FORMAT_FILE_TO_PROCESS, Boolean.FALSE));
     }
 
-    private void moveFileToTest(String fileName) throws IOException, InterruptedException {
+    private void moveFileToTest(String fileName) throws IOException{
         File original = new File(
                 "src/test/resources/".concat(fileName));
         File copied = new File(Path.INPUT.path.concat(fileName));
         FileUtils.copyFile(original, copied);
-        Thread.sleep(500);
     }
 
-    private Boolean checkProcessedFile(String fileName, Boolean expectedResult) throws InterruptedException {
-        Thread.sleep(500);
+    private Boolean checkProcessedFile(String fileName, Boolean expectedResult)  {
         String outOutPath;
         if(expectedResult){
             outOutPath = Path.OUTPUT.path.concat(fileName).replace(".dat", ".done.dat");
@@ -68,13 +66,12 @@ public class ChainProcessorTest {
         }
         File file = new File(outOutPath);
         boolean result = file.canRead();
-/*        file.delete();
-        deleteFile(fileName);*/
+        file.delete();
+        deleteFile(fileName);
         return result;
     }
 
-    private void deleteFile(String fileName) throws InterruptedException {
-        Thread.sleep(500);
+    private void deleteFile(String fileName)  {
         new File(Path.OUTPUT.path.concat(fileName).replace(".dat", ".done.dat"));
         new File(Path.BACKUP.path.concat(fileName)).delete();
         new File(Path.FAILURE_BACKUP.path.concat(fileName)).delete();

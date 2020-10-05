@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class ReportTest {
 
